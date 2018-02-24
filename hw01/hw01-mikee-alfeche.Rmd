@@ -12,17 +12,17 @@ library(readr)
 ```
 
 ```{r}
-uci <- "https://archive.ics.uci.edu/ml/machine-learning-databases"
-autos <- "/autos/imports-85.data"
-url <- paste0(uci, autos)
+# uci <- "https://archive.ics.uci.edu/ml/machine-learning-databases"
+# autos <- "/autos/imports-85.data"
+# url <- paste0(uci, autos)
 
-download.file(url = url, destfile = 'C:/Users/m2mar/Desktop/Statistics 133/imports-85.data')
+# download.file(url = url, destfile = 'C:/Users/m2mar/Desktop/Statistics 133/imports-85.data')
 
-names <- "https://archive.ics.uci.edu/ml/machine-learning-databases"
-autos <- "/autos/imports-85.names"
-url <- paste0(names, autos)
+# names <- "https://archive.ics.uci.edu/ml/machine-learning-databases"
+# autos <- "/autos/imports-85.names"
+# url <- paste0(names, autos)
 
-download.file(url = url, destfile = 'C:/Users/m2mar/Desktop/Statistics 133/imports-85.names')
+# download.file(url = url, destfile = 'C:/Users/m2mar/Desktop/Statistics 133/imports-85.names')
 ```
 
 ```{r}
