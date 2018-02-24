@@ -1,0 +1,239 @@
+---
+title: "hw01-mikee-alfeche"
+author: "Mikee Alfeche"
+date: "February 22, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+install.packages("readr")
+library(readr)
+```
+
+```{r}
+uci <- "https://archive.ics.uci.edu/ml/machine-learning-databases"
+autos <- "/autos/imports-85.data"
+url <- paste0(uci, autos)
+
+download.file(url = url, destfile = 'C:/Users/m2mar/Desktop/Statistics 133/imports-85.data')
+
+names <- "https://archive.ics.uci.edu/ml/machine-learning-databases"
+autos <- "/autos/imports-85.names"
+url <- paste0(names, autos)
+
+download.file(url = url, destfile = 'C:/Users/m2mar/Desktop/Statistics 133/imports-85.names')
+```
+
+```{r}
+# Data Import
+read.csv('imports-85.names')
+
+# data[] <- lapply(data, function(data){replace(data, data == "?", 0)})
+
+data = data.frame(read.csv("imports-85.data"), stringsAsFactors = FALSE)
+
+data_colnames = c(
+  ("symboling"), #1
+  ("normalized_losses"), 
+  ("make"), 
+  ("fuel_type"), 
+  ("aspiration"), #5
+  ("num_of_doors"), 
+  ("body_style"), 
+  ("drive_wheels"), 
+  ("engine_location"), 
+  ("wheel_base"), #10
+  ("length"), 
+  ("width"), 
+  ("height"), 
+  ("curb_weight"), 
+  ("engine_type"), #15
+  ("num_of_cylinders"), 
+  ("engine_size"), 
+  ("fuel_system"), 
+  ("bore"), 
+  ("stroke"), #20
+  ("compression_ratio"),
+  ("horsepower"),
+  ("peak_rpm"), 
+  ("city_mpg"), 
+  ("highway_mpg"), #25
+  ("price")
+)
+
+colnames(data) = data_colnames
+
+#price, peak_rpm, horsepower, stroke, bore, normalized_losses
+
+#character
+data$make <- as.character(data$make)
+data$fuel_type <- as.character(data$fuel_type)
+data$num_of_doors <- as.character(data$num_of_doors)
+data$body_style <- as.character(data$body_style)
+data$aspiration <- as.character(data$aspiration)
+data$drive_wheels <- as.character(data$drive_wheels)
+data$engine_location <- as.character(data$engine_location)
+data$engine_type <- as.character(data$engine_type)
+data$num_of_cylinders <- as.character(data$num_of_cylinders)
+data$fuel_system <- as.character(data$fuel_system)
+# #numeric
+data$bore <- as.numeric(levels(data$bore))[data$bore]
+data$stroke <- as.numeric(levels(data$stroke))[data$stroke]
+# #integer
+data$normalized_losses <- as.integer(as.character(levels(data$normalized_losses)))[data$normalized_losses]
+data$horsepower <- as.integer(as.character(levels(data$horsepower)))[data$horsepower]
+data$peak_rpm <- as.integer(levels(data$peak_rpm))[data$peak_rpm]
+data$price <- as.integer(as.character(levels(data$price)))[data$stroke]
+
+data_1 <- read_csv("imports-85.data", col_names = data_colnames)
+colnames(data_1) = data_colnames
+
+#character
+data_1$make <- as.character(data_1$make)
+data_1$fuel_type <- as.character(data_1$fuel_type)
+data_1$num_of_doors <- as.character(data_1$num_of_doors)
+data_1$body_style <- as.character(data_1$body_style)
+data_1$aspiration <- as.character(data_1$aspiration)
+data_1$drive_wheels <- as.character(data_1$drive_wheels)
+data_1$engine_location <- as.character(data_1$engine_location)
+data_1$engine_type <- as.character(data_1$engine_type)
+data_1$num_of_cylinders <- as.character(data_1$num_of_cylinders)
+data_1$fuel_system <- as.character(data_1$fuel_system)
+#numeric
+data_1$bore <- as.numeric(data_1$bore)
+data_1$stroke <- as.numeric(data_1$stroke)
+#integer
+data_1$normalized_losses <- as.integer(data_1$normalized_losses)
+data_1$horsepower <- as.integer(data_1$horsepower)
+data_1$peak_rpm<- as.integer(data_1$peak_rpm)
+data_1$price <- as.integer(data_1$price)
+
+```
+
+```{r}
+# Technical Questions
+
+# a. The headers are going to be auto-generated according to the first row of each column
+# 
+# b. There will be headers that say V1, V2, etc. 
+# 
+# c. It will be a factor
+# 
+# d. 
+# 
+# e. 
+
+```
+
+``` {r}
+
+# hist(data$price, col = c("red", "yellow", "green", "violet",
+#      "orange", "blue", "pink", "cyan", "purple", "black"),
+#      main = "Histogram of Prices", xlab = "Prices", breaks=seq(head(sort(data$price), 1),tail(sort(data$price), 1), 100))
+
+hist(data$price, col = c("red", "yellow", "green"), main = "Histogram of Prices", xlab = "Prices")
+
+# Description: Histogram of frequency in prices of each auto
+
+boxplot(data$horsepower, horizontal = TRUE, main = "Horsepower Distribution")
+# Description: Boxplot of minimum, maximum, average, 25th%ile,
+# 75th%ile, etc. of horsepower of each auto
+
+body_style_freq = as.data.frame(table(data$body_style))
+barplot(table(data$body_style), main = "Body Style Distribution", ylab = "Frequency")
+# Description: Barplot of types of body styles and their frequencies
+
+turbo_aspiration = data[data$aspiration == "turbo",]
+turbo_df = turbo_aspiration[, c("wheel_base", "length", "width", "height", "price")]
+stars(turbo_df)
+# Description: Stars plot of vehicles with turbo aspiration, using wheel-base, length, width, height, and price
+```
+
+``` {r}
+#A
+a1 = mean(data$price[data$fuel_type[] == "gas"], na.rm = TRUE)
+a2 = mean(data$price[data$fuel_type[] == "diesel"], na.rm = TRUE)
+a1
+a2
+
+#B
+b = data$make[data$num_of_cylinders[] == "twelve"]
+b
+
+#C
+# apply(dataframe, 2, max) 
+diesel_only = data.frame(data[data$fuel_type == "diesel",])
+make_diesel_count = as.data.frame(table(diesel_only$make))
+most = tail(make_diesel_count[order(make_diesel_count$Freq), ], 1)
+most
+
+#D
+largest = data$price[data$horsepower == tail(sort(data$horsepower, decreasing = FALSE), 1)]
+largest
+
+#E bottom 10th percentile in city mpg
+newdata <- data[order(data$city_mpg),]
+bott = head(newdata, as.integer(length(data$city_mpg) * .1) )
+bott
+
+#F top 10% on highway
+highwaydata <- data[order(data$highway_mpg, decreasing = TRUE),]
+top = head(highwaydata, as.integer(length(data$highway_mpg) * .1) )
+top
+
+#G median price in bottom 10% of city_mpg
+newdata <- data[order(data$city_mpg),]
+bott = head(newdata, as.integer(length(data$city_mpg) * .1) )
+mean_bot = mean(bott$price, na.rm = TRUE)
+mean_bot
+
+```
+``` {r}
+
+https://github.com/ucb-stat133/stat133-spring-2018/blob/master/tutorials/06-principal-components.md
+```
+
+``` {r}
+
+# hi = max(make_diesel_count$Freq)
+# make_diesel_count[,make_diesel_count$Freq == hi]
+# 
+# max(as.data.frame(table(data$make[data$fuel_type[] == "diesel"])))
+# 
+# make_diesel = data.frame(data$make, data$fuel_type == "diesel")
+# data$fuel_type[] == "diesel"
+# 
+# diesel_type = data.frame(data$fuel_type[] == "diesel")
+# if (diesel_type[,"data.fuel_type.......diesel." == "TRUE"])
+#   data[]
+# 
+# data$make[data$fuel_type[] == max(data$fuel_type == "diesel")]
+# 
+# 
+# team_freq = as.data.frame(table(team))
+# diesel_freq = as.data.frame(table(data$fuel_type))
+# new = diesel_freq[ data$make,]
+# for(i in 1: nrow(new)){
+#   new[, new$make]
+# }
+
+
+# tail(sort(data$horsepower, decreasing = FALSE), 1)
+# diesel_only = data.frame(data[data$fuel_type == "diesel",])
+# make_diesel_count = as.data.frame(table(diesel_only$make))
+# most = tail(make_diesel_count[order(make_diesel_count$Freq), ], 1)
+# most
+# 
+# 
+# max(data$horsepower)
+# data$price[max(data$horsepower)]
+# hi = data[data$horesepower == "162"]
+
+# tail(sort(data[,data$city_mpg], decreasing = FALSE), as.integer(length(data$city_mpg) * .1))
+
+```
+
+
+
+
